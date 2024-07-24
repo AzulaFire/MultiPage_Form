@@ -1,12 +1,10 @@
 import z from 'zod';
 
 export const stepOneSchema = z.object({
-  name: z.string().min(2, 'Please enter a name for the product.'),
+  name: z.string().min(1, 'Please enter a name for the product.'),
   link: z
     .string()
-    .url(
-      'Please enter a valid URL including starting with http:// or https://'
-    ),
+    .url('Please enter a valid URL including starting with https://'),
 });
 
 export const stepTwoSchema = z.object({

@@ -1,6 +1,6 @@
-'use client';
-
 import { useAddDealContext } from '@/contexts/addDealContext';
+import { type } from 'os';
+import { ChangeEvent } from 'react';
 
 interface InputProps {
   label: string;
@@ -14,6 +14,11 @@ interface InputProps {
   max?: number;
   errorMsg?: string;
 }
+
+interface NewDealData {
+  [key: string]: string | number | undefined;
+}
+
 export default function Input({
   label,
   id,
@@ -27,8 +32,10 @@ export default function Input({
   errorMsg,
 }: InputProps) {
   const { updateNewDealDetails, newDealData } = useAddDealContext();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateNewDealDetails({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    updateNewDealDetails({ [name]: value });
   };
 
   return (
@@ -54,7 +61,7 @@ export default function Input({
         min={min}
         max={max}
         onChange={handleInputChange}
-        defaultValue={newDealData[id]}
+        value={newDealData[id as keyof typeof newDealData] || ''} // Use value instead of defaultValue
       />
       <div className='min-h-8 mt-1'>
         {errorMsg && (
@@ -63,7 +70,4 @@ export default function Input({
       </div>
     </div>
   );
-}
-function setUpdatedDeal(arg0: (prev: any) => any) {
-  throw new Error('Function not implemented.');
 }
